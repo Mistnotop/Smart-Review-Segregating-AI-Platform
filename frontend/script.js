@@ -1,4 +1,4 @@
-const API = "http://127.0.0.1:8000";
+const API = "https://smart-review-ai-api.onrender.com";
 
 const analyzeBtn = document.getElementById("analyzeBtn");
 const reviewInput = document.getElementById("reviewInput");

@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SmartReview AI</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="page-shell">
+        <header class="hero">
+            <div class="hero-content">
+                <div class="brand-mark">
+                    <i class="fa-solid fa-sparkles"></i>
+                </div>
+                <div>
+                    <p class="eyebrow">Review intelligence platform</p>
+                    <h1>SmartReview AI</h1>
+                    <p class="hero-subtitle">AI-powered Review Intelligence Dashboard</p>
+                </div>
+            </div>
+
+            <div class="status-pill">
+                <span class="pulse"></span>
+                AI Engine Online
+            </div>
+        </header>
+
+        <main>
+            <section class="review-panel">
+                <div class="section-heading">
+                    <span class="section-kicker">Analyze</span>
+                    <h2>Understand every customer review instantly</h2>
+                </div>
+
+                <textarea id="reviewInput" placeholder="Paste any customer review here..."></textarea>
+
+                <button id="analyzeBtn">
+                    <i class="fa-solid fa-wand-magic-sparkles"></i>
+                    Analyze with AI
+                </button>
+            </section>
+
+            <section class="result-grid" aria-label="AI analysis results">
+                <article class="metric-card result-card">
+                    <div class="metric-icon sentiment-icon">
+                        <i class="fa-solid fa-face-smile"></i>
+                    </div>
+                    <div>
+                        <p class="metric-label">Sentiment</p>
+                        <h3 id="sentiment">-</h3>
+                    </div>
+                </article>
+
+                <article class="metric-card result-card">
+                    <div class="metric-icon confidence-icon">
+                        <i class="fa-solid fa-chart-line"></i>
+                    </div>
+                    <div>
+                        <p class="metric-label">Confidence</p>
+                        <h3 id="confidence">-</h3>
+                    </div>
+                </article>
+
+                <article class="metric-card result-card">
+                    <div class="metric-icon authenticity-icon">
+                        <i class="fa-solid fa-shield-halved"></i>
+                    </div>
+                    <div>
+                        <p class="metric-label">Authenticity</p>
+                        <h3 id="fake">-</h3>
+                    </div>
+                </article>
+            </section>
+
+            <section class="stats" aria-label="Review statistics">
+                <article class="stat-card">
+                    <span>Total Reviews</span>
+                    <h2 id="totalReviews">0</h2>
+                </article>
+
+                <article class="stat-card">
+                    <span>Genuine Reviews</span>
+                    <h2 id="realReviews">0</h2>
+                </article>
+
+                <article class="stat-card">
+                    <span>Fake Reviews</span>
+                    <h2 id="fakeReviews">0</h2>
+                </article>
+            </section>
+
+            <section class="analytics-section">
+                <div class="section-heading centered">
+                    <span class="section-kicker">Analytics</span>
+                    <h2>Review intelligence at a glance</h2>
+                </div>
+
+                <div class="chart-container">
+                    <article class="chart-card">
+                        <div class="chart-header">
+                            <div>
+                                <span>Sentiment Distribution</span>
+                                <h3>Positive vs Negative</h3>
+                            </div>
+                            <i class="fa-solid fa-chart-pie"></i>
+                        </div>
+                        <canvas id="sentimentChart"></canvas>
+                    </article>
+
+                    <article class="chart-card">
+                        <div class="chart-header">
+                            <div>
+                                <span>Authenticity Split</span>
+                                <h3>Genuine vs Fake</h3>
+                            </div>
+                            <i class="fa-solid fa-shield"></i>
+                        </div>
+                        <canvas id="fakeChart"></canvas>
+                    </article>
+                </div>
+            </section>
+
+            <section class="history">
+                <div class="history-header">
+                    <div>
+                        <span class="section-kicker">History</span>
+                        <h2>Recent Reviews</h2>
+                    </div>
+
+                    <div class="search-wrap">
+                        <i class="fa-solid fa-magnifying-glass"></i>
+                        <input type="text" id="searchBox" placeholder="Search reviews...">
+                    </div>
+                </div>
+
+                <div id="historyContainer"></div>
+            </section>
+        </main>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>

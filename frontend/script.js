@@ -156,7 +156,7 @@ function displayReviews(data){
 analyzeBtn.onclick = async () => {
     const text = reviewInput.value.trim();
 
-    if(text === ""){
+    if (text === "") {
         alert("Please enter a review.");
         return;
     }
@@ -169,31 +169,41 @@ analyzeBtn.onclick = async () => {
         </div>
     `;
 
-    const response = await fetch(`${API}/analyze`,{
-        method:"POST",
-        headers:{
-            "Content-Type":"application/json"
-        },
-        body:JSON.stringify({
-            review:text
-        })
-    });
+    try {
+        const response = await fetch(`${API}/analyze`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                review: text
+            })
+        });
 
-    const data = await response.json();
+        if (!response.ok) {
+            const errorText = await response.text();
+            throw new Error(errorText);
+        }
 
-    sentiment.textContent = data.sentiment;
-    confidence.textContent = `${(data.confidence * 100).toFixed(2)}%`;
-    fake.textContent = data.fake ? "Fake Review" : "Genuine";
+        const data = await response.json();
 
-    analyzeBtn.innerHTML = `
-        <i class="fa-solid fa-wand-magic-sparkles"></i>
-        Analyze with AI
-    `;
+        sentiment.textContent = data.sentiment;
+        confidence.textContent = `${(data.confidence * 100).toFixed(2)}%`;
+        fake.textContent = data.fake ? "Fake Review" : "Genuine";
 
-    reviewInput.value = "";
-    loadReviews();
+        reviewInput.value = "";
+        loadReviews();
+
+    } catch (err) {
+        console.error(err);
+        alert("Backend Error:\n\n" + err.message);
+    } finally {
+        analyzeBtn.innerHTML = `
+            <i class="fa-solid fa-wand-magic-sparkles"></i>
+            Analyze with AI
+        `;
+    }
 };
-
 searchBox.addEventListener("input",() => {
     const keyword = searchBox.value.toLowerCase();
     const filtered = reviews.filter(review =>

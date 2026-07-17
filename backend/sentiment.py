@@ -1,13 +1,21 @@
 from transformers import pipeline
 
-classifier = pipeline(
-    "sentiment-analysis",
-    model="distilbert-base-uncased-finetuned-sst-2-english"
-)
+classifier = None
+
+
+def get_classifier():
+    global classifier
+    if classifier is None:
+        classifier = pipeline(
+            "sentiment-analysis",
+            model="distilbert-base-uncased-finetuned-sst-2-english"
+        )
+    return classifier
 
 
 def analyze_sentiment(review: str):
-    result = classifier(review)[0]
+    model = get_classifier()
+    result = model(review)[0]
 
     return {
         "sentiment": result["label"].capitalize(),

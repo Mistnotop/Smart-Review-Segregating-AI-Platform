@@ -33,30 +33,42 @@ def home():
 
 @app.post("/analyze", response_model=ReviewResponse)
 def analyze(data: ReviewRequest):
+    try:
+        print("STEP 1")
+        sentiment_result = analyze_sentiment(data.review)
+        print("STEP 2", sentiment_result)
 
-    sentiment_result = analyze_sentiment(data.review)
+        fake_result = detect_fake_review(data.review)
+        print("STEP 3", fake_result)
 
-    fake_result = detect_fake_review(data.review)
+        db = SessionLocal()
+        print("STEP 4")
 
-    db = SessionLocal()
+        save_review(
+            db,
+            data.review,
+            sentiment_result["sentiment"],
+            sentiment_result["confidence"],
+            fake_result
+        )
 
-    save_review(
-        db,
-        data.review,
-        sentiment_result["sentiment"],
-        sentiment_result["confidence"],
-        fake_result
-    )
+        print("STEP 5")
 
-    db.close()
+        db.close()
 
-    return {
-        "review": data.review,
-        "sentiment": sentiment_result["sentiment"],
-        "confidence": sentiment_result["confidence"],
-        "fake": fake_result
-    }
+        return {
+            "review": data.review,
+            "sentiment": sentiment_result["sentiment"],
+            "confidence": sentiment_result["confidence"],
+            "fake": fake_result
+        }
 
+    except Exception as e:
+        import traceback
+        traceback.print_exc()
+        print("ERROR:", repr(e))
+        raise
+    
 @app.get("/reviews", response_model=List[ReviewOut])
 def reviews():
 

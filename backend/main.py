@@ -16,7 +16,7 @@ app = FastAPI(
 app.add_middleware(
     CORSMiddleware,
     allow_origins=[
-        "https://smart-review-segregating-ai-platfor.vercel.app/",
+        "https://smart-review-segregating-ai-platfor.vercel.app",
     ],
     allow_credentials=True,
     allow_methods=["*"],

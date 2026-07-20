@@ -1,28 +1,23 @@
-import os
-from huggingface_hub import InferenceClient
+from vaderSentiment.vaderSentiment import SentimentIntensityAnalyzer
 
-MODEL = "distilbert-base-uncased-finetuned-sst-2-english"
-
-client = InferenceClient(
-    token=os.getenv("HF_TOKEN")
-)
+analyzer = SentimentIntensityAnalyzer()
 
 
 def analyze_sentiment(review: str):
-    try:
-        result = client.text_classification(
-            review,
-            model=MODEL
-        )
+    scores = analyzer.polarity_scores(review)
 
-        return {
-            "sentiment": result.label.capitalize(),
-            "confidence": round(result.score, 4)
-        }
+    compound = scores["compound"]
 
-    except Exception as e:
-        print("Sentiment Error:", e)
-        return {
-            "sentiment": "Unknown",
-            "confidence": 0.0
-        }
+    if compound >= 0.05:
+        sentiment = "Positive"
+    elif compound <= -0.05:
+        sentiment = "Negative"
+    else:
+        sentiment = "Neutral"
+
+    confidence = abs(compound)
+
+    return {
+        "sentiment": sentiment,
+        "confidence": round(confidence * 100, 2)
+    }
